@@ -13,37 +13,37 @@ public class ByteMethods {
         byteSB.setLength(8);
     }
 
-    public static long byteArrayToLong(byte[] bytes) {
-        bufferLong.put(bytes, 0, bytes.length);
-        bufferLong.flip();
-        return bufferLong.getLong();
+    public static byte[] shortToByteArray(short i) {
+        bufferShort.putShort(0, i);
+        return bufferShort.array();
     }
 
-    public static byte[] longToBytes(long x) {
-        bufferLong.putLong(0, x);
-        return bufferLong.array();
-    }
-
-    public static long byteArrayToInt(byte[] bytes) {
-        bufferInt.put(bytes, 0, bytes.length);
-        bufferInt.flip();
-        return bufferInt.getInt();
-    }
-
-    public static byte[] intToByteArray(int x) {
-        bufferInt.putInt(0, x);
+    public static byte[] intToByteArray(int i) {
+        bufferInt.putInt(0, i);
         return bufferInt.array();
     }
 
-    public static long byteArrayToShort(byte[] bytes) {
+    public static byte[] longToByteArray(long i) {
+        bufferLong.putLong(0, i);
+        return bufferLong.array();
+    }
+
+    public static short byteArrayToShort(byte[] bytes) {
         bufferShort.put(bytes, 0, bytes.length);
         bufferShort.flip();
         return bufferShort.getShort();
     }
 
-    public static byte[] shortToByteArray(short x) {
-        bufferShort.putShort(0, x);
-        return bufferShort.array();
+    public static int byteArrayToInt(byte[] bytes) {
+        bufferInt.put(bytes, 0, bytes.length);
+        bufferInt.flip();
+        return bufferInt.getInt();
+    }
+
+    public static long byteArrayToLong(byte[] bytes) {
+        bufferLong.put(bytes, 0, bytes.length);
+        bufferLong.flip();
+        return bufferLong.getLong();
     }
 
     public static String byteToString(byte b) {
