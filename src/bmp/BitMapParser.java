@@ -138,8 +138,6 @@ public class BitMapParser {
         int bytesPerPixel = bitsPerPixel / 8;
         int additionalZeroes = (4 - ((bytesPerPixel * width) % 4)) % 4;
 
-        System.err.println(bytesPerPixel + " " + additionalZeroes);
-
         Field[][] fields = new Field[height][width];
         PixelTable.PixelRow[] rows = new PixelTable.PixelRow[height];
 

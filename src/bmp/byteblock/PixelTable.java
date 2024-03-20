@@ -57,9 +57,6 @@ public class PixelTable extends FileByteBlock {
         data = newRows;
         width = height;
         height = newRows.length;
-
-        System.out.println("pixel height: " +  height + '\n' +
-                "pixel width: " + width);
     }
 
     public void cut(int x1, int x2, int y1, int y2) {

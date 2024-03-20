@@ -38,9 +38,6 @@ public class BitMap implements BinaryFile {
 
     @Override
     public void writeToFile(File file) {
-        System.out.println("width: " + info.getWidth() + '\n' +
-                "height: " + info.getHeight());
-
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(fileHeader.toByteArray());
             fos.write(info.toByteArray());
