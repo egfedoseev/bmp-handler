@@ -17,11 +17,11 @@ public class Main {
         if (args.length < 7) {
             return;
         }
-        int x1 = Integer.parseInt(args[3]);
-        int x2 = Integer.parseInt(args[4]);
-        int y1 = Integer.parseInt(args[5]);
-        int y2 = Integer.parseInt(args[6]);
-        bmp.cut(x1, x2, y1, y2);
+        int y1 = Integer.parseInt(args[3]);
+        int x1 = Integer.parseInt(args[4]);
+        int y2 = Integer.parseInt(args[5]);
+        int x2 = Integer.parseInt(args[6]);
+        bmp.cut(x1, x1 + x2 - 1, y1, y1 + y2 - 1);
     }
 
     public static void main(String[] args) {

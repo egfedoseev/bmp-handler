@@ -12,6 +12,10 @@ public class Info extends FileByteBlock {
     }
 
     public void setHeight(int height) {
+        int trueHeight = getTrueHeight();
+        if (trueHeight / Math.abs(trueHeight) != height / Math.abs(height)) {
+            height *= -1;
+        }
         setField(2, new Field(ByteMethods.intToByteArray(height)));
     }
 
@@ -19,8 +23,12 @@ public class Info extends FileByteBlock {
         return ByteMethods.byteArrayToInt(getField(1));
     }
 
-    public int getHeight() {
+    public int getTrueHeight() {
         return ByteMethods.byteArrayToInt(getField(2));
+    }
+
+    public int getPositiveHeight() {
+        return Math.abs(ByteMethods.byteArrayToInt(getField(2)));
     }
 
     public short getBitsPerPixel() {

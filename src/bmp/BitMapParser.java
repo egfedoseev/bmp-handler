@@ -89,7 +89,7 @@ public class BitMapParser {
 
         FileHeader fileHeader = parseFileHeader();
         Info info = parseInfo();
-        PixelTable pixels = parsePixelTable(info.getBitsPerPixel(), info.getHeight(), info.getWidth());
+        PixelTable pixels = parsePixelTable(info.getBitsPerPixel(), info.getPositiveHeight(), info.getWidth());
 
         return new BitMap(fileHeader, info, pixels);
     }
