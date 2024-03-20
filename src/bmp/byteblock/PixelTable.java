@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class PixelTable extends FileByteBlock {
     private int width;
     private int height;
-    private int bytesPerPixel;
+    private final int bytesPerPixel;
 
     public static class PixelRow extends FileByteBlock {
         public PixelRow(Field[] data) {
@@ -30,12 +30,21 @@ public class PixelTable extends FileByteBlock {
             }
             return ret;
         }
+
+        private static PixelRow[] getEmptyRows(int height, int width) {
+            PixelRow[] rows = new PixelRow[height];
+            for (int i = 0; i < height; ++i) {
+                rows[i] = new PixelRow(new Field[width]);
+            }
+            return rows;
+        }
     }
 
-    public PixelTable(PixelRow[] data, int height, int width) {
+    public PixelTable(PixelRow[] data, int height, int width, int bytesPerPixel) {
         super(data);
         this.height = height;
         this.width = width;
+        this.bytesPerPixel = bytesPerPixel;
     }
 
     public byte[] get(int row, int col) {
@@ -43,31 +52,28 @@ public class PixelTable extends FileByteBlock {
     }
 
     public void rotate() {
-        PixelRow[] newRows = new PixelRow[width];
-
-        for (int i = 0; i < width; ++i) {
-            newRows[i] = new PixelRow(new Field[height]);
-        }
+        PixelRow[] newRows = PixelRow.getEmptyRows(width, height);
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 newRows[width - j - 1].setField(i, new Field(((PixelRow) data[i]).getField(j)));
             }
         }
-
         data = newRows;
-        width = height;
+        width = newRows[0].data.length;
         height = newRows.length;
     }
 
     public void cut(int x1, int x2, int y1, int y2) {
-        Field[] newPixels = new Field[(x2 - x1 + 1) * (y2 - y1 + 1)];
+        PixelRow[] newRows = PixelRow.getEmptyRows(x2 - x1 + 1, y2 - y1 + 1);
         for (int i = x1; i <= x2; ++i) {
             for (int j = y1; j <= y2; ++j) {
-                newPixels[(i - x1) * (y2 - y1 + 1) + j - y1] = (Field) data[i * height + width];
+//                newRows[(i - x1) * (y2 - y1 + 1) + j - y1] = (PixelRow) data[i * height + width];
+                System.out.println(i + " " + (i - x1) + ' ' + data.length);
+                newRows[i - x1].setField(j - y1, new Field(((PixelRow) data[i]).getField(j)));
             }
         }
-        data = newPixels;
-        height = x2 - x1;
-        width = y2 - y1;
+        data = newRows;
+        height = x2 - x1 + 1;
+        width = y2 - y1 + 1;
     }
 }

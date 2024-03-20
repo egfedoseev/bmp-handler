@@ -10,9 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class BitMap implements BinaryFile {
-    private FileHeader fileHeader;
-    private Info info;
-    private PixelTable pixels;
+    private final FileHeader fileHeader;
+    private final Info info;
+    private final PixelTable pixels;
 
     public BitMap(FileHeader fileHeader, Info info, PixelTable pixels) {
         this.fileHeader = fileHeader;

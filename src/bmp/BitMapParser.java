@@ -156,7 +156,7 @@ public class BitMapParser {
             rows[i] = new PixelTable.PixelRow(fields[i]);
         }
 
-        return new PixelTable(rows, height, width);
+        return new PixelTable(rows, height, width, bitsPerPixel);
     }
 
     private Field parseField(int count) {
