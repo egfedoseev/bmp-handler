@@ -83,13 +83,8 @@ public class BitMapParser {
         return ret;
     }
 
-    public BitMap parse(Path path) {
-        try {
-            bytes = Files.readAllBytes(path);
-        } catch (IOException e) {
-            System.err.println("Can't read file\nIOException: " + e.getMessage());
-            return null;
-        }
+    public BitMap parse(Path path) throws IOException {
+        bytes = Files.readAllBytes(path);
         pos = 0;
 
         FileHeader fileHeader = parseFileHeader();

@@ -67,8 +67,6 @@ public class PixelTable extends FileByteBlock {
         PixelRow[] newRows = PixelRow.getEmptyRows(x2 - x1 + 1, y2 - y1 + 1);
         for (int i = x1; i <= x2; ++i) {
             for (int j = y1; j <= y2; ++j) {
-//                newRows[(i - x1) * (y2 - y1 + 1) + j - y1] = (PixelRow) data[i * height + width];
-                System.out.println(i + " " + (i - x1) + ' ' + data.length);
                 newRows[i - x1].setField(j - y1, new Field(((PixelRow) data[i]).getField(j)));
             }
         }

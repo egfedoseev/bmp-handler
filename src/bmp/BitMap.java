@@ -37,13 +37,11 @@ public class BitMap implements BinaryFile {
     }
 
     @Override
-    public void writeToFile(File file) {
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(fileHeader.toByteArray());
-            fos.write(info.toByteArray());
-            fos.write(pixels.toByteArray());
-        } catch (IOException e) {
-            System.err.println("Can't write to file\nIOException: " + e.getMessage());
-        }
+    public void writeToFile(File file) throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(fileHeader.toByteArray());
+        fos.write(info.toByteArray());
+        fos.write(pixels.toByteArray());
+        fos.close();
     }
 }
