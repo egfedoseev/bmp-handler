@@ -1,7 +1,7 @@
 package bmp.byteblock;
 
-public class FileByteBlock extends ByteBlock {
-    public FileByteBlock(Field[] data) {
+public abstract class FileByteBlock extends ByteBlock {
+    public FileByteBlock(ToByteArray[] data) {
         this.data = data;
     }
 

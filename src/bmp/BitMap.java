@@ -6,10 +6,8 @@ import bmp.byteblock.Info;
 import bmp.byteblock.PixelTable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.rmi.ServerError;
 
 public class BitMap implements BinaryFile {
     private FileHeader fileHeader;
@@ -26,8 +24,8 @@ public class BitMap implements BinaryFile {
         pixels.rotate();
         int newHeight = info.getWidth();
         int newWidth = info.getHeight();
-        info.setWidth(newWidth);
         info.setHeight(newHeight);
+        info.setWidth(newWidth);
     }
 
     public void cut(int x1, int x2, int y1, int y2) {
@@ -39,7 +37,10 @@ public class BitMap implements BinaryFile {
     }
 
     @Override
-    public void writeToFile(File file)  {
+    public void writeToFile(File file) {
+        System.out.println("width: " + info.getWidth() + '\n' +
+                "height: " + info.getHeight());
+
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(fileHeader.toByteArray());
             fos.write(info.toByteArray());

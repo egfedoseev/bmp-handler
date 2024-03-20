@@ -9,13 +9,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class BitMapParser {
     private byte[] bytes;
     private int pos;
 
     private IllegalArgumentException error(String message) {
-        throw new IllegalArgumentException("Error at position " + pos + ": " + message);
+        throw new IllegalArgumentException("Error at position " + Integer.toHexString(pos).toUpperCase(Locale.ROOT) + ": " + message);
     }
 
     private void expect(byte[] expected) {
@@ -101,7 +102,7 @@ public class BitMapParser {
     private FileHeader parseFileHeader() {
         Field[] fields = new Field[5];
 
-        fields[0] = expectedField(new byte[]{0x4d, 0x42});
+        fields[0] = expectedField(new byte[]{0x42, 0x4d});
         fields[1] = parseField(4);
         fields[2] = expectedField(new byte[]{0x0, 0x0});
         fields[3] = expectedField(new byte[]{0x0, 0x0});
@@ -133,14 +134,31 @@ public class BitMapParser {
         if (bitsPerPixel % 8 != 0) {
             throw error("Can't parse divided bytes");
         }
-        int bytesPerPixel = bitsPerPixel / 8;
-        Field[] fields = new Field[height * width];
 
-        for (int i = 0; i < fields.length; ++i) {
-            fields[i] = parseField(bytesPerPixel);
+        int bytesPerPixel = bitsPerPixel / 8;
+        int additionalZeroes = (4 - ((bytesPerPixel * width) % 4)) % 4;
+
+        System.err.println(bytesPerPixel + " " + additionalZeroes);
+
+        Field[][] fields = new Field[height][width];
+        PixelTable.PixelRow[] rows = new PixelTable.PixelRow[height];
+
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                fields[i][j] = parseField(bytesPerPixel);
+            }
+            if (additionalZeroes > 0) {
+                byte[] zeroes = new byte[additionalZeroes];
+                Arrays.fill(zeroes, (byte) 0x0);
+                expect(zeroes);
+            }
         }
 
-        return new PixelTable(fields, height, width);
+        for (int i = 0; i < height; ++i) {
+            rows[i] = new PixelTable.PixelRow(fields[i]);
+        }
+
+        return new PixelTable(rows, height, width);
     }
 
     private Field parseField(int count) {
